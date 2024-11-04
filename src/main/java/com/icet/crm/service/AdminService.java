@@ -9,5 +9,5 @@ public interface AdminService extends SuperService {
     AdminDto findById(Integer id);
     boolean deleteById(Integer id);
     List<AdminDto> getAll();
-
+    void updateAdmin(AdminDto adminDto);
 }

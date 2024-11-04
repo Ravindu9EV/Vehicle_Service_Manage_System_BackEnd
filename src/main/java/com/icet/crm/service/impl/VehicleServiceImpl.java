@@ -26,10 +26,11 @@ public class VehicleServiceImpl implements VehicleService {
         return true;
     }
 
+
     @Override
     public List<VehicleDto> getAll() {
         List<VehicleDto> vehicleDtos=new ArrayList<>();
-        repository.getAll().forEach(vehicle -> vehicleDtos.add(mapper.map(vehicle,VehicleDto.class)));
+        repository.findAll().forEach(vehicle -> vehicleDtos.add(mapper.map(vehicle,VehicleDto.class)));
         return vehicleDtos;
     }
 
@@ -57,5 +58,10 @@ public class VehicleServiceImpl implements VehicleService {
     public VehicleDto findById(Integer id) {
         Vehicle vehicle =repository.getReferenceById(id);
          return vehicle!=null ? mapper.map(vehicle,VehicleDto.class) : null;
+    }
+
+    @Override
+    public void updateVehicle(VehicleDto vehicle) {
+        repository.save(mapper.map(vehicle,Vehicle.class));
     }
 }

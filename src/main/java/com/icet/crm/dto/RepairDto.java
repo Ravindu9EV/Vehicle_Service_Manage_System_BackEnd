@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ServiceDto {
+public class RepairDto {
     private String type;
     private String cost;
     private String duration;

@@ -40,9 +40,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> findByServiceId(Integer id) {
+    public List<BookingDto> findByRepairId(Integer id) {
         List<BookingDto> bookingDtos=new ArrayList<>();
-        repository.findByServiceId(id).forEach(booking -> bookingDtos.add(mapper.map(booking,BookingDto.class)));
+        repository.findByRepairId(id).forEach(booking -> bookingDtos.add(mapper.map(booking,BookingDto.class)));
         return bookingDtos;
     }
 
@@ -51,5 +51,10 @@ public class BookingServiceImpl implements BookingService {
         List<BookingDto> bookingDtos=new ArrayList<>();
         repository.findByVehicleId(id).forEach(booking -> bookingDtos.add(mapper.map(booking,BookingDto.class)));
         return bookingDtos;
+    }
+
+    @Override
+    public void updateBooking(BookingDto bookingDto) {
+        repository.save(mapper.map(bookingDto,Booking.class));
     }
 }

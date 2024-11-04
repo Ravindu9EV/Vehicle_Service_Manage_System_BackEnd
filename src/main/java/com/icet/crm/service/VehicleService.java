@@ -12,5 +12,5 @@ public interface VehicleService extends SuperService {
     List<VehicleDto> findByMadeYear(String year);
     VehicleDto findByLicensePlate(String licensePlate);
     VehicleDto findById(Integer id);
-
+    void updateVehicle(VehicleDto vehicle);
 }

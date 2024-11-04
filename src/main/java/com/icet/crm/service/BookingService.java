@@ -9,6 +9,7 @@ public interface BookingService {
     BookingDto findBooking(Integer id);
     List<BookingDto> getAll();
     List<BookingDto> findByDate(String date);
-    List<BookingDto> findByServiceId(Integer id);
+    List<BookingDto> findByRepairId(Integer id);
     List<BookingDto> findByVehicleId(Integer id);
+    void updateBooking(BookingDto bookingDto);
 }

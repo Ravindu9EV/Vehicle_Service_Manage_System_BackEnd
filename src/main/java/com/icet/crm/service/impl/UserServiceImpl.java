@@ -33,14 +33,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto findByEmail(String email) {
+        return mapper.map(repository.findByEmail(email),UserDto.class);
+    }
+
+    @Override
     public List<UserDto> findByName(String name) {
         List<UserDto> users=new ArrayList<>();
-        getAll().forEach(userDto -> {
-            if (userDto.getName().equals(name)){
-                users.add(userDto);
-            }
-        });
+//        getAll().forEach(userDto -> {
+//            if (userDto.getName().equals(name)){
+//                users.add(userDto);
+//            }
+//        });
+        for(User user:repository.findByName(name)){
+            users.add(mapper.map(user,UserDto.class));
+        }
         return users;
+
     }
 
     @Override
@@ -48,5 +57,10 @@ public class UserServiceImpl implements UserService {
         List<UserDto> users=new ArrayList<>();
         repository.findAll().forEach(user -> users.add(mapper.map(user,UserDto.class)));
         return users;
+    }
+
+    @Override
+    public void updateUser(UserDto user) {
+        repository.save(mapper.map(user,User.class));
     }
 }

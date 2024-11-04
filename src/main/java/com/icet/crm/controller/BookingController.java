@@ -23,26 +23,39 @@ public class BookingController {
     }
 
     @GetMapping("/search-booking-by-id/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.FOUND)
     public BookingDto searchBookingById(@PathVariable Integer id){
         return service.findBooking(id);
     }
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateBooking(@RequestBody BookingDto bookingDto){
+        service.updateBooking(bookingDto);
+    }
+
 
     @GetMapping("/search-booking-by-date/{date}")
+    @ResponseStatus(HttpStatus.FOUND)
     public List<BookingDto> searchBookingByDate(@PathVariable String date){
         return service.findByDate(date);
     }
 
-    @GetMapping("/search-booking-by-vehicle-id/{vehicleId}")
+    @GetMapping("/search-by-vehicle-id/{vehicleId}")
+    @ResponseStatus(HttpStatus.FOUND)
     public List<BookingDto> searchBookingByVehicleId(@PathVariable Integer vehicleId){
         return service.findByVehicleId(vehicleId);
     }
 
-    @GetMapping("/search-vehicle-by-service-id/{serviceId}")
-    public List<BookingDto> searchBookingByServiceId(Integer serviceId){
-        return service.findByServiceId(serviceId);
+    @GetMapping("/search-by-repair-id/{repairId}")
+    @ResponseStatus(HttpStatus.FOUND)
+    public List<BookingDto> searchBookingByRepairId(Integer repairId){
+        return service.findByRepairId(repairId);
     }
 
-
+    @GetMapping("/get-all")
+    @ResponseStatus(HttpStatus.FOUND)
+    public List<BookingDto> getAll(){
+        return service.getAll();
+    }
 
 }

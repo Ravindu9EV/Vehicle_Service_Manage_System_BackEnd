@@ -17,6 +17,6 @@ public class Booking {
     private Integer vehicleId;
     private String bookedDate;
     private String bookedTime;
-    private Integer serviceID;
+    private Integer repairId;
     private String description;
 }

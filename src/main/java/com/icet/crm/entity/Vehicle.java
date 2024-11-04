@@ -16,7 +16,7 @@ public class Vehicle {
 //    @ManyToOne
 //    @JoinColumn(name = "id")
 //    private User user;
-    @Column(name = "user_id",insertable = false,nullable = false,updatable = false)
+    @Column(name = "id",insertable = false,nullable = false,updatable = false)
     private Integer userId;
     private String model;
     private String licensePlate;

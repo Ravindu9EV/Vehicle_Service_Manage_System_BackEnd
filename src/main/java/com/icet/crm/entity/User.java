@@ -20,6 +20,7 @@ public class User {
     private String contact;
     private String email;
     private String password;
-    @OneToMany(mappedBy = "User",cascade = CascadeType.ALL)
+    @OneToMany
+            //(mappedBy = "Vehicle",cascade = CascadeType.ALL)
     private List<Vehicle> vehicleEntities;
 }

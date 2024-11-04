@@ -40,4 +40,9 @@ public class AdminServiceImpl implements AdminService {
         repository.findAll().forEach(admin -> admins.add(mapper.map(admin, AdminDto.class)));
         return admins;
     }
+
+    @Override
+    public void updateAdmin(AdminDto adminDto) {
+        repository.save(mapper.map(adminDto,Admin.class));
+    }
 }
