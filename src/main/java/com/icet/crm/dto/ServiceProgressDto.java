@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class ServiceProgressDto {
-    private Integer serviceId;
+    private String serviceId;
     private String status;
     private String date;
     private String description;

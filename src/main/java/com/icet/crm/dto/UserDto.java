@@ -15,5 +15,5 @@ public class UserDto {
     private String contact;
     private String email;
     private String password;
-    private List<Vehicle> vehicleEntities;
+    private List<VehicleDto> vehicleEntities;
 }

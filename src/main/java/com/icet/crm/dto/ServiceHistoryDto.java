@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 public class ServiceHistoryDto {
-    private Integer serviceId;
+    private String serviceId;
     private LocalDate serviceDate;
     private String description;
     private String nextServiceDate;

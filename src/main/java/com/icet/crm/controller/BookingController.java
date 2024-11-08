@@ -1,7 +1,6 @@
 package com.icet.crm.controller;
 
 import com.icet.crm.dto.BookingDto;
-import com.icet.crm.dto.VehicleDto;
 import com.icet.crm.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,10 +15,11 @@ import java.util.List;
 public class BookingController {
     private final BookingService service;
 
-    @PostMapping("/add-Booking")
+    @PostMapping("/add-booking")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addBooking(@RequestBody BookingDto bookingDto){
-        service.addBooiking(bookingDto);
+    public boolean addBooking(@RequestBody BookingDto bookingDto){
+        System.out.println(bookingDto);
+        return service.addBooiking(bookingDto);
     }
 
     @GetMapping("/search-booking-by-id/{id}")
@@ -56,6 +56,12 @@ public class BookingController {
     @ResponseStatus(HttpStatus.FOUND)
     public List<BookingDto> getAll(){
         return service.getAll();
+    }
+
+    @GetMapping("/get-available-booking")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public BookingDto checkBookingIsAvailable(@RequestParam String bookedDate,@RequestParam String bookedTime){
+        return service.getAvailbleBooking(bookedDate,bookedTime);
     }
 
 }

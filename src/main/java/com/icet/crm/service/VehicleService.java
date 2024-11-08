@@ -4,8 +4,8 @@ import com.icet.crm.dto.VehicleDto;
 
 import java.util.List;
 
-public interface VehicleService extends SuperService {
-    void addVehicle(VehicleDto vehicleDto);
+public interface VehicleService {
+    boolean addVehicle(VehicleDto vehicleDto);
     boolean deleteById(Integer id);
     List<VehicleDto> getAll();
     List<VehicleDto> findByModel(String model);

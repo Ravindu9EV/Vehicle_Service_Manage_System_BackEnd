@@ -11,7 +11,7 @@ import lombok.*;
 @Entity
 public class Repair {
     @Id
-    @Column(name = "service_id")
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String type;

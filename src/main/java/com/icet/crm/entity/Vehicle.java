@@ -11,12 +11,13 @@ import lombok.*;
 @Entity
 public class Vehicle {
     @Id
+    @Column(name = "vehicle_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 //    @ManyToOne
-//    @JoinColumn(name = "id")
+//    @JoinColumn(name = "user_id")
 //    private User user;
-    @Column(name = "id",insertable = false,nullable = false,updatable = false)
+    @Column(name = "user_id")
     private Integer userId;
     private String model;
     private String licensePlate;

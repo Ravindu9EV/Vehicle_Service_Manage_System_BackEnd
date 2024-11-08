@@ -1,7 +1,6 @@
 package com.icet.crm.service;
 
 import com.icet.crm.dto.VehicleDto;
-import com.icet.crm.entity.Vehicle;
 import org.modelmapper.ModelMapper;
 import com.icet.crm.repository.VehicleRepository;
 import org.junit.jupiter.api.Assertions;

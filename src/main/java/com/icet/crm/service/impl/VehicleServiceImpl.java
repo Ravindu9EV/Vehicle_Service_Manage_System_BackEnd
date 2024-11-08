@@ -16,8 +16,12 @@ public class VehicleServiceImpl implements VehicleService {
     private final VehicleRepository repository;
     private final ModelMapper mapper;
     @Override
-    public void addVehicle(VehicleDto vehicleDto) {
-        if(vehicleDto!=null) repository.save(mapper.map(vehicleDto,Vehicle.class));
+    public boolean addVehicle(VehicleDto vehicleDto) {
+        if(vehicleDto!=null){
+            repository.save(mapper.map(vehicleDto,Vehicle.class));
+            return true;
+        }
+        return false;
     }
 
     @Override

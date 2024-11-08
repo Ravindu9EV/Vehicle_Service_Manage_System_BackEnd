@@ -2,12 +2,10 @@ package com.icet.crm.controller;
 
 import com.icet.crm.dto.VehicleDto;
 import com.icet.crm.service.VehicleService;
-import jakarta.servlet.annotation.HttpConstraint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpRequest;
 import java.util.List;
 
 @RestController
@@ -20,10 +18,11 @@ public class VehicleController {
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public void addVehicle(@RequestBody VehicleDto vehicle){
+        System.out.println(vehicle);
         service.addVehicle(vehicle);
     }
 
-    @GetMapping("/search-by-id")
+    @GetMapping("/search-by-id/{id}")
     @ResponseStatus(HttpStatus.FOUND)
     public VehicleDto searchVehicleById(@PathVariable Integer id){
         return service.findById(id);
@@ -35,7 +34,7 @@ public class VehicleController {
         service.updateVehicle(vehicleDto);
     }
 
-    @DeleteMapping("/delete-by-id")
+    @DeleteMapping("/delete-by-id/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteVehicle(Integer id){
         service.deleteById(id);

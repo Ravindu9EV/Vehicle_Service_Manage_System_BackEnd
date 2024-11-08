@@ -4,6 +4,7 @@ import com.icet.crm.dto.UserDto;
 import com.icet.crm.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService service;
     @PostMapping("/add-user")
     @ResponseStatus(HttpStatus.CREATED)

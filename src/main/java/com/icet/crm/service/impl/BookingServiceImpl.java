@@ -1,9 +1,12 @@
 package com.icet.crm.service.impl;
 
 import com.icet.crm.dto.BookingDto;
+import com.icet.crm.dto.EmailDto;
 import com.icet.crm.entity.Booking;
 import com.icet.crm.repository.BookingRepository;
 import com.icet.crm.service.BookingService;
+import com.icet.crm.service.impl.email.RepairBookingEmailService;
+import com.icet.crm.util.EmailServiceType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
@@ -15,10 +18,31 @@ import java.util.List;
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository repository;
     private final ModelMapper mapper;
+    final RepairBookingEmailService repairBookingEmailService;
     @Override
-    public void addBooiking(BookingDto bookingDto) {
-        if(bookingDto!=null)repository.save(mapper.map(bookingDto,Booking.class));
+    public boolean addBooiking(BookingDto bookingDto) {
+        boolean isAvailable=false;
+        if(bookingDto!=null){
+            if(getAvailbleBooking(bookingDto.getBookedDate(), bookingDto.getBookedTime())==null){
+                Booking booking=mapper.map(bookingDto, Booking.class);
+
+                if(getAvailbleBooking(booking.getBookedDate(), booking.getBookedTime())==null){
+                    repository.save(booking);
+                    isAvailable=true;
+                    if(isAvailable){
+                        EmailDto emailDto=repairBookingEmailService.sendRepairBookingEmail(booking);
+                        System.out.println(emailDto);
+                    }
+                }
+
+            }
+
+        }
+        return isAvailable;
+
     }
+
+
 
     @Override
     public BookingDto findBooking(Integer id) {
@@ -56,5 +80,11 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void updateBooking(BookingDto bookingDto) {
         repository.save(mapper.map(bookingDto,Booking.class));
+    }
+
+    @Override
+    public BookingDto getAvailbleBooking(String bookedDate, String bookedTime) {
+       Booking booking=repository.findByBookedDateAndBookedTime(bookedDate,bookedTime);
+        return booking==null?null:mapper.map(booking,BookingDto.class);
     }
 }

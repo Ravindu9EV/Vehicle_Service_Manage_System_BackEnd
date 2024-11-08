@@ -1,8 +1,6 @@
 package com.icet.crm.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -15,6 +13,7 @@ import java.time.LocalDate;
 @Entity
 public class ServiceHistory {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "service_id",insertable = false,nullable = false,updatable = false)
     private Integer serviceId;
