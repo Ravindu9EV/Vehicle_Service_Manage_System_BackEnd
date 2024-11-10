@@ -9,8 +9,10 @@ public interface UserService {
     boolean deleteUser(Integer id);
     UserDto findById(Integer id);
     UserDto findByEmail(String email);
+    UserDto findByEmailAndPassword(String email,String password);
     List<UserDto> findByName(String name);
     List<UserDto> getAll();
     void updateUser(UserDto user);
+
 
 }

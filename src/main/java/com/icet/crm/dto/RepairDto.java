@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class RepairDto {
+    private Integer id;
     private String type;
     private String cost;
     private String duration;

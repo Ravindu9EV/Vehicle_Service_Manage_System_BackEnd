@@ -1,8 +1,10 @@
 package com.icet.crm.service.impl;
 
+import com.icet.crm.dto.AdminDto;
 import com.icet.crm.dto.EmailDto;
 import com.icet.crm.dto.UserDto;
 import com.icet.crm.dto.VehicleDto;
+import com.icet.crm.entity.Admin;
 import com.icet.crm.entity.Email;
 import com.icet.crm.entity.User;
 import com.icet.crm.entity.Vehicle;
@@ -41,7 +43,16 @@ public class UserServiceImpl implements UserService {
     @Override
 
     public boolean addUser(UserDto userDto) {
-        if (userDto == null | userDto.getVehicleEntities().isEmpty()) {
+        if (userDto == null | userDto.getVehicleEntities().isEmpty() | userDto.getEmail().isEmpty() | userDto.getPassword().isEmpty() | userDto.getName().isEmpty()) {
+            return false;
+        }else if(userDto.getPassword()==null){
+            return false;
+        }else if(userDto.getEmail()==null){
+            return false;
+        }
+        else if(userDto.getName()==null){
+            return false;
+        }else if(userDto.getContact()==null){
             return false;
         }
         DefaultTransactionDefinition deft = new DefaultTransactionDefinition();
@@ -133,17 +144,42 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByEmail(String email) {
-        return !email.isEmpty() ? mapper.map(repository.findByEmail(email), UserDto.class) : null;
+        User user=null;
+        UserDto userDto=null;
+        if(email==null){
+            return null;
+        }
+        try{
+            user=repository.findByEmail(email);
+            if(user!=null){
+                userDto=mapper.map(user, UserDto.class);
+                System.out.println(userDto);
+                return userDto;
+            }
+
+        }catch (Exception e){
+            System.out.println(e);
+            System.out.println(userDto);
+            return userDto;
+            //return !email.isEmpty() ? userDto: null;
+        }
+        System.out.println(userDto);
+        return userDto;
+    }
+
+    @Override
+    public UserDto findByEmailAndPassword(String email, String password) {
+
+        UserDto userDto=findByEmail(email);
+        if(userDto!=null & passwordEncoder.matches(password, userDto.getPassword())){
+            return userDto;
+        }
+        return userDto;
     }
 
     @Override
     public List<UserDto> findByName(String name) {
         List<UserDto> users = new ArrayList<>();
-//        getAll().forEach(userDto -> {
-//            if (userDto.getName().equals(name)){
-//                users.add(userDto);
-//            }
-//        });
         for (User user : repository.findByName(name)) {
             users.add(mapper.map(user, UserDto.class));
         }

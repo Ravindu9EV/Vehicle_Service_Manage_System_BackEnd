@@ -11,4 +11,5 @@ public interface AdminService {
     List<AdminDto> getAll();
     void updateAdmin(AdminDto adminDto);
     AdminDto findByEmail(String email);
+    AdminDto findByEmailAndPassword(String email,String password);
 }

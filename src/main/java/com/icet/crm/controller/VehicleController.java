@@ -23,7 +23,7 @@ public class VehicleController {
     }
 
     @GetMapping("/search-by-id/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public VehicleDto searchVehicleById(@PathVariable Integer id){
         return service.findById(id);
     }
@@ -41,23 +41,23 @@ public class VehicleController {
     }
 
     @GetMapping("/get-all")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<VehicleDto> getAll(){
         return service.getAll();
     }
 
     @GetMapping("/find-by-made-year/{madeYear}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<VehicleDto> findByMadeYear(@PathVariable String madeYear){
         return service.findByMadeYear(madeYear);
     }
     @GetMapping("/find-by-model/{model}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<VehicleDto> findByModel(@PathVariable String model){
         return service.findByMadeYear(model);
     }
     @GetMapping("/find-by-model/{licensePlate}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public VehicleDto findByLicensePlate(@PathVariable String licensePlate){
         return service.findByLicensePlate(licensePlate);
     }

@@ -17,11 +17,36 @@ public class RepairServiceImpl implements RepairService {
     private final RepairRepository repository;
     private final ModelMapper mapper;
     @Override
-    public void addRepair(RepairDto repairDto) {
-        if(repairDto!=null){
-            repository.save(mapper.map(repairDto, Repair.class));
-        }
+    public boolean addRepair(RepairDto repairDto) {
+        System.out.println(repairDto.equals(null));
+        Repair repair=null;
+//        if((repairDto.getType()==null)){
+//           return false;
+//        } else if (repairDto.getDuration()==null) {
+//            return false;
+//        } else if (repairDto.getDescription()==null){
+//            return false;
+//        }else if(repair.getCost()==null){
+//            return false;
+//        } else
+//           try{
+//               if(repairDto!=null ){
+//
+//                   repair=repository.save(mapper.map(repairDto, Repair.class));
+//
+//               }
+//               System.out.println(repair);
+//
+//           }catch (Exception e){
+//               System.out.println(e);
+//               return false;
+//           }
+        if(repairDto!=null ){
 
+            repair=repository.save(mapper.map(repairDto, Repair.class));
+
+        }
+           return repair!=null;
     }
 
     @Override

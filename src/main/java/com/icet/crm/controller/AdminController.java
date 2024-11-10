@@ -41,10 +41,18 @@ public class AdminController {
         return service.getAll();
     }
 
-    @GetMapping("/search-admin-by-email")
+    @GetMapping("/search-admin-by-email-and-password")
     public AdminDto searchAdminByEmailAndPassword(@RequestBody LoginDto loginDto){
+        return service.findByEmailAndPassword(loginDto.getEmail(), loginDto.getPassword());
+       // return service.findByEmail(loginDto.getEmail());
+    }
 
-        return service.findByEmail(loginDto.getEmail());
+    @GetMapping("/search-by-email/{email}")
+    @ResponseStatus(HttpStatus.OK)
+    public AdminDto searchAdminByEmail(@PathVariable String email){
+        AdminDto adminDto=service.findByEmail(email);
+        System.out.println(adminDto);
+        return adminDto;
     }
 
 }

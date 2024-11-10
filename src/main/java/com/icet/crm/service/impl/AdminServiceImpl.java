@@ -1,7 +1,9 @@
 package com.icet.crm.service.impl;
 
 import com.icet.crm.dto.AdminDto;
+import com.icet.crm.dto.UserDto;
 import com.icet.crm.entity.Admin;
+import com.icet.crm.entity.User;
 import com.icet.crm.repository.AdminRepository;
 import com.icet.crm.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -58,9 +60,68 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public AdminDto findByEmail(String email) {
+//        Admin admin=null;
+//       if(email.equals(null)){
+//           return null;
+//       }
+//           try{
+//               admin=repository.findByEmail(email);
+//               if(admin!=null){
+//                   System.out.println(admin);
+//                   return mapper.map(admin,AdminDto.class);
+//               }
+//           }
+//           catch (Exception e){
+//               System.out.println(e);
+//           }
+//
+//
+//        System.out.println(admin);
+//       return null;
+        Admin admin=null;
+        AdminDto adminDto=null;
+        if(email==null){
+            return null;
+        }
+        try{
+            admin=repository.findByEmail(email);
+            if(admin!=null){
+                adminDto=mapper.map(admin, AdminDto.class);
+                System.out.println(adminDto);
+                return adminDto;
+            }
 
-       Admin admin=repository.findByEmail(email);
-        System.out.println(admin);
-       return admin==null ? null : mapper.map(admin,AdminDto.class);
+        }catch (Exception e){
+            System.out.println(e);
+            System.out.println(adminDto);
+            return adminDto;
+            //return !email.isEmpty() ? userDto: null;
+        }
+        System.out.println(adminDto);
+        return adminDto;
+    }
+
+    @Override
+    public AdminDto findByEmailAndPassword(String email, String password) {
+//        AdminDto adminDto=findByEmail(email);
+//        System.out.println(adminDto);
+//        if(adminDto!=null & passwordEncoder.matches(password,adminDto.getPassword())){
+//            System.out.println(adminDto);
+//            return adminDto;
+//            //return mapper.map(adminDto, AdminDto.class);
+//        }
+//        return null;
+
+        AdminDto adminDto=findByEmail(email);
+        System.out.println(adminDto);
+        if(adminDto!=null ){
+            if(passwordEncoder.matches(password, adminDto.getPassword())){
+                System.out.println(adminDto);
+                return adminDto;
+                //return mapper.map(adminDto, AdminDto.class);
+            }
+
+        }
+        return null;
     }
 }
