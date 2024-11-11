@@ -41,11 +41,15 @@ public class RepairServiceImpl implements RepairService {
 //               System.out.println(e);
 //               return false;
 //           }
-        if(repairDto!=null ){
 
-            repair=repository.save(mapper.map(repairDto, Repair.class));
+        if(repairDto.getType()==null | repairDto.getDuration()==null | repairDto.getCost()==null | repairDto.getDescription()==null){
+            return false;
+        }else if(repairDto!=null ){
+               System.out.println(repairDto);
+               repair=repository.save(mapper.map(repairDto, Repair.class));
 
         }
+
            return repair!=null;
     }
 

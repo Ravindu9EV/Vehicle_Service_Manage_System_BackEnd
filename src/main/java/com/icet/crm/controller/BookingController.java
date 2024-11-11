@@ -16,51 +16,51 @@ public class BookingController {
     private final BookingService service;
 
     @PostMapping("/add-booking")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public boolean addBooking(@RequestBody BookingDto bookingDto){
         System.out.println(bookingDto);
         return service.addBooiking(bookingDto);
     }
 
     @GetMapping("/search-booking-by-id/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public BookingDto searchBookingById(@PathVariable Integer id){
         return service.findBooking(id);
     }
     @PutMapping("/update")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public void updateBooking(@RequestBody BookingDto bookingDto){
         service.updateBooking(bookingDto);
     }
 
 
-    @GetMapping("/search-booking-by-date/{date}")
-    @ResponseStatus(HttpStatus.FOUND)
-    public List<BookingDto> searchBookingByDate(@PathVariable String date){
-        return service.findByDate(date);
+    @GetMapping("/search-booking-by-date/filter")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookingDto> searchBookingByDate(@RequestParam(required = true) String bookedDate){
+        return service.findByDate(bookedDate);
     }
 
     @GetMapping("/search-by-vehicle-id/{vehicleId}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<BookingDto> searchBookingByVehicleId(@PathVariable Integer vehicleId){
         return service.findByVehicleId(vehicleId);
     }
 
-    @GetMapping("/search-by-repair-id/{repairId}")
-    @ResponseStatus(HttpStatus.FOUND)
-    public List<BookingDto> searchBookingByRepairId(Integer repairId){
+    @GetMapping("/search-by-repair-id/?")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookingDto> searchBookingByRepairId(@RequestParam(required = true) Integer repairId){
         return service.findByRepairId(repairId);
     }
 
     @GetMapping("/get-all")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<BookingDto> getAll(){
         return service.getAll();
     }
 
-    @GetMapping("/get-available-booking")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public BookingDto checkBookingIsAvailable(@RequestParam String bookedDate,@RequestParam String bookedTime){
+    @GetMapping("/get-available-booking/filter")
+    @ResponseStatus(HttpStatus.OK)
+    public BookingDto checkBookingIsAvailable(@RequestParam(required = true) String bookedDate,@RequestParam String bookedTime){
         return service.getAvailbleBooking(bookedDate,bookedTime);
     }
 
