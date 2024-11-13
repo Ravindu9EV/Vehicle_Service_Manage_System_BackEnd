@@ -44,8 +44,9 @@ public class UserServiceImpl implements UserService {
 
     public boolean addUser(UserDto userDto) {
         if (userDto == null | userDto.getVehicleEntities().isEmpty() | userDto.getEmail().isEmpty() | userDto.getPassword().isEmpty() | userDto.getName().isEmpty()) {
+            System.out.println("empty filed");
             return false;
-        }else if(userDto.getPassword()==null){
+        } else if(userDto.getPassword()==null){
             return false;
         }else if(userDto.getEmail()==null){
             return false;
@@ -55,6 +56,7 @@ public class UserServiceImpl implements UserService {
         }else if(userDto.getContact()==null){
             return false;
         }
+
         DefaultTransactionDefinition deft = new DefaultTransactionDefinition();
         TransactionStatus status = platformTransactionManager.getTransaction(deft);
         User newUser = null;
@@ -64,14 +66,17 @@ public class UserServiceImpl implements UserService {
         System.out.println(userDto.getEmail());
         User user = mapper.map(userDto, User.class);
         Vehicle newVehicle = null;
-        if (repository.findByEmail(userDto.getEmail()) != null) {
+
+        if (repository.findByEmail(userDto.getEmail()) != null) {  //Check A User exist with same Email
             System.out.println("User Already in");
             return false;
         }
         for (Vehicle v : user.getVehicleEntities()) {
-            if (vehicleRepository.findByLicensePlate(v.getLicensePlate()) == null) {
+            if (vehicleRepository.findByLicensePlate(v.getLicensePlate()) == null) {  //Check A vehicle exist with given License Plate
                 newVehicle = v;
                 break;
+            }else{
+                return false;
             }
         }
         try {

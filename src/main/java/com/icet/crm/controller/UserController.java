@@ -18,7 +18,7 @@ public class UserController {
 
     private final UserService service;
     @PostMapping("/add-user")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public boolean addUser(@RequestBody UserDto userDto){
         return service.addUser(userDto);
     }
@@ -45,7 +45,7 @@ public class UserController {
 
 
     @PutMapping("/update")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public void updateUser(@RequestBody UserDto userDto){
         service.updateUser(userDto);
     }

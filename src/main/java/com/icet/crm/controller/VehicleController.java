@@ -16,27 +16,29 @@ public class VehicleController {
 
     private final VehicleService service;
     @PostMapping("/save")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addVehicle(@RequestBody VehicleDto vehicle){
+    @ResponseStatus(HttpStatus.OK)
+    public boolean addVehicle(@RequestBody VehicleDto vehicle){
         System.out.println(vehicle);
-        service.addVehicle(vehicle);
+        return service.addVehicle(vehicle);
     }
 
     @GetMapping("/search-by-id/{id}")
     @ResponseStatus(HttpStatus.OK)
     public VehicleDto searchVehicleById(@PathVariable Integer id){
-        return service.findById(id);
+        VehicleDto vehicleDto=service.findById(id);
+        System.out.println(vehicleDto);
+        return vehicleDto;
     }
 
     @PutMapping("/update")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public void updateVehicle(@RequestBody VehicleDto vehicleDto){
         service.updateVehicle(vehicleDto);
     }
 
-    @DeleteMapping("/delete-by-id/{id}")
+    @DeleteMapping("/delete-by-id/filter")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteVehicle(Integer id){
+    public void deleteVehicle(@RequestParam(required = true) Integer id){
         service.deleteById(id);
     }
 

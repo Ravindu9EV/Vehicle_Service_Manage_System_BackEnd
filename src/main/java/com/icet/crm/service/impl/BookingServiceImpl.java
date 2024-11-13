@@ -33,6 +33,8 @@ public class BookingServiceImpl implements BookingService {
                         EmailDto emailDto=repairBookingEmailService.sendRepairBookingEmail(booking);
                         System.out.println(emailDto);
                     }
+                }else{
+                    return false;
                 }
 
             }

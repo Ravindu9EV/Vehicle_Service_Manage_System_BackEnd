@@ -4,6 +4,7 @@ import com.icet.crm.dto.VehicleDto;
 import com.icet.crm.entity.Vehicle;
 import com.icet.crm.repository.VehicleRepository;
 import com.icet.crm.service.VehicleService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
@@ -60,8 +61,20 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDto findById(Integer id) {
-        Vehicle vehicle =repository.getReferenceById(id);
-         return vehicle!=null ? mapper.map(vehicle,VehicleDto.class) : null;
+        try {
+            Vehicle vehicle =repository.getReferenceById(id);
+            try{
+
+                return mapper.map(vehicle,VehicleDto.class);
+            }catch (EntityNotFoundException e){
+                System.out.println(e);
+                return null;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+
     }
 
     @Override

@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class VehicleDto {
+    private Integer id;
     private Integer userId;
     private String model;
     private String licensePlate;
