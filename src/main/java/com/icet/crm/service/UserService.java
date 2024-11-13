@@ -12,7 +12,7 @@ public interface UserService {
     UserDto findByEmailAndPassword(String email,String password);
     List<UserDto> findByName(String name);
     List<UserDto> getAll();
-    void updateUser(UserDto user);
+    boolean updateUser(UserDto user);
 
 
 }

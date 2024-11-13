@@ -81,4 +81,18 @@ public class VehicleServiceImpl implements VehicleService {
     public void updateVehicle(VehicleDto vehicle) {
         repository.save(mapper.map(vehicle,Vehicle.class));
     }
+
+    @Override
+    public List<VehicleDto> findByUserid(Integer userId) {
+        List<VehicleDto> vehicleDtos=new ArrayList<>();
+        try{
+            for(Vehicle entity:  repository.findByUserId(userId)){
+                vehicleDtos.add(mapper.map(entity,VehicleDto.class));
+            }
+        }catch (Exception e){
+            System.out.println(e);
+            return vehicleDtos;
+        }
+        return vehicleDtos;
+    }
 }

@@ -63,4 +63,9 @@ public class VehicleController {
     public VehicleDto findByLicensePlate(@PathVariable String licensePlate){
         return service.findByLicensePlate(licensePlate);
     }
+    @GetMapping("/find-by-userId/filter")
+    @ResponseStatus(HttpStatus.OK)
+    public List<VehicleDto> findByLicensePlate(@RequestParam(required = true) Integer userId){
+        return service.findByUserid(userId);
+    }
 }

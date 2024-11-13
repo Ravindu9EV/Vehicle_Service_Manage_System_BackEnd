@@ -17,6 +17,7 @@ import com.icet.crm.service.VehicleService;
 import com.icet.crm.service.impl.email.RegistrationEmailService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.engine.internal.Collections;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
@@ -26,6 +27,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -200,7 +202,42 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(UserDto user) {
-        repository.save(mapper.map(user, User.class));
+    public boolean updateUser(UserDto userDto) {
+
+        DefaultTransactionDefinition deft = new DefaultTransactionDefinition();
+        TransactionStatus status = platformTransactionManager.getTransaction(deft);
+
+        boolean isUpdate=false;
+
+        LinkedList<Vehicle> vehicleLinkedList=new LinkedList<>();
+        List<VehicleDto>  vehicleDtos=userDto.getVehicleEntities();
+        try {
+
+            for(Vehicle vehicle1:vehicleRepository.findByUserId(userDto.getId())){
+                for(VehicleDto vDto:vehicleDtos){
+                    if(vehicle1.getId().equals(vDto.getId())){
+                        vehicleLinkedList.remove(vehicle1); //remove the vehicle object with old details
+                        vehicleLinkedList.push(mapper.map(vDto,Vehicle.class));//add updated vehicle object
+                    }
+
+                }
+            }
+
+            vehicleRepository.saveAll(vehicleLinkedList);
+            User updatedUser=mapper.map(userDto, User.class);
+            updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+            System.out.println(updatedUser);
+            repository.save(updatedUser);
+            platformTransactionManager.commit(status);
+            isUpdate=true;
+
+            //userVehicles=null;
+        }catch (Exception e){
+            isUpdate=false;
+            System.out.println(e);
+        }
+
+        return isUpdate;
+
     }
 }

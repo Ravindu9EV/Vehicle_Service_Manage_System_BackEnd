@@ -13,4 +13,5 @@ public interface VehicleService {
     VehicleDto findByLicensePlate(String licensePlate);
     VehicleDto findById(Integer id);
     void updateVehicle(VehicleDto vehicle);
+    List<VehicleDto> findByUserid(Integer userId);
 }

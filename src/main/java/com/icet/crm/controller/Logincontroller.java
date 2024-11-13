@@ -3,6 +3,7 @@ package com.icet.crm.controller;
 import com.icet.crm.dto.LoginDto;
 import com.icet.crm.service.LoginService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class Logincontroller {
     final LoginService service;
-    @GetMapping("/user-login")
+    @PostMapping("/user-login")
+    @ResponseStatus(HttpStatus.OK)
     public boolean checkUserLogin(@RequestBody LoginDto loginDto){
 
         return service.checkUserLogin(loginDto.getEmail(), loginDto.getPassword());

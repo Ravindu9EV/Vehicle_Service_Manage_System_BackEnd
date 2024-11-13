@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class UserDto {
+    private Integer id;
     private String name;
     private String contact;
     private String email;
