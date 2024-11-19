@@ -23,15 +23,15 @@ public class UserController {
         return service.addUser(userDto);
     }
 
-    @GetMapping("/search-by-id/{id}")
+    @GetMapping("/search-by-id/filter")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto searchUserById(@PathVariable Integer id){
+    public UserDto searchUserById(@RequestParam Integer id){
        return service.findById(id);
     }
 
-    @GetMapping("/search-by-email/{email}")
+    @GetMapping("/search-by-email/filter")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto searchUserByEmail(@PathVariable String email){
+    public UserDto searchUserByEmail(@RequestParam String email){
         return service.findByEmail(email);
     }
 
@@ -49,9 +49,9 @@ public class UserController {
     public void updateUser(@RequestBody UserDto userDto){
         service.updateUser(userDto);
     }
-    @DeleteMapping("delete-by-id/{id}")
+    @DeleteMapping("delete-by-id/filter")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteUser(@PathVariable Integer id){
+    public void deleteUser(@RequestParam Integer id){
         service.deleteUser(id);
     }
 
@@ -60,9 +60,9 @@ public class UserController {
     public List<UserDto> getAll(){
         return service.getAll();
     }
-    @GetMapping("/get-user-by-name/{name}")
+    @GetMapping("/get-user-by-name/filter")
     @ResponseStatus(HttpStatus.OK)
-    public List<UserDto> findByName(@PathVariable String name){
+    public List<UserDto> findByName(@RequestParam String name){
         return service.findByName(name);
     }
 }

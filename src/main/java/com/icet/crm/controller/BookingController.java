@@ -22,9 +22,9 @@ public class BookingController {
         return service.addBooiking(bookingDto);
     }
 
-    @GetMapping("/search-booking-by-id/{id}")
+    @GetMapping("/search-booking-by-id/filter")
     @ResponseStatus(HttpStatus.OK)
-    public BookingDto searchBookingById(@PathVariable Integer id){
+    public BookingDto searchBookingById(@RequestParam Integer id){
         return service.findBooking(id);
     }
     @PutMapping("/update")
@@ -47,7 +47,7 @@ public class BookingController {
         return service.findByVehicleId(vehicleId);
     }
 
-    @GetMapping("/search-by-repair-id/?")
+    @GetMapping("/search-by-repair-id/filter")
     @ResponseStatus(HttpStatus.OK)
     public List<BookingDto> searchBookingByRepairId(@RequestParam(required = true) Integer repairId){
         return service.findByRepairId(repairId);
@@ -68,5 +68,10 @@ public class BookingController {
     @DeleteMapping("delete/filter")
     public boolean deleteBooking(@RequestParam(required = true) Integer id){
         return service.deleteBooking(id);
+    }
+
+    @GetMapping("/sort-by-date")
+    public List<BookingDto> getBookingsSortByDate(){
+        return service.sortByDate();
     }
 }

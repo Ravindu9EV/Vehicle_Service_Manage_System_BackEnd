@@ -14,4 +14,5 @@ public interface BookingService {
     boolean updateBooking(BookingDto bookingDto);
     BookingDto getAvailbleBooking(String bookedDate,String bookedTime);
     boolean deleteBooking(Integer id);
+    List<BookingDto> sortByDate();
 }
