@@ -45,19 +45,20 @@ public class UserServiceImpl implements UserService {
     @Override
 
     public boolean addUser(UserDto userDto) {
-        if (userDto == null | userDto.getVehicleEntities().isEmpty() | userDto.getEmail().isEmpty() | userDto.getPassword().isEmpty() | userDto.getName().isEmpty()) {
-            System.out.println("empty filed");
-            return false;
-        } else if(userDto.getPassword()==null){
-            return false;
-        }else if(userDto.getEmail()==null){
-            return false;
-        }
-        else if(userDto.getName()==null){
-            return false;
-        }else if(userDto.getContact()==null){
-            return false;
-        }
+//        if (userDto.getName().isEmpty() || userDto.getEmail().isEmpty() || userDto.getPassword().isEmpty() ||  userDto.getVehicleEntities()==null) {
+//            System.out.println("empty filed");
+//            return false;
+//        }
+        //else if(userDto.getPassword()==null){
+//            return false;
+//        }else if(userDto.getEmail()==null){
+//            return false;
+//        }
+//        else if(userDto.getName()==null){
+//            return false;
+//        }else if(userDto.getContact()==null){
+//            return false;
+//        }
 
         DefaultTransactionDefinition deft = new DefaultTransactionDefinition();
         TransactionStatus status = platformTransactionManager.getTransaction(deft);

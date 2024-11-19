@@ -29,8 +29,9 @@ public class BookingController {
     }
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public void updateBooking(@RequestBody BookingDto bookingDto){
-        service.updateBooking(bookingDto);
+    public boolean updateBooking(@RequestBody BookingDto bookingDto){
+        System.out.println(bookingDto);
+       return service.updateBooking(bookingDto);
     }
 
 
@@ -64,4 +65,8 @@ public class BookingController {
         return service.getAvailbleBooking(bookedDate,bookedTime);
     }
 
+    @DeleteMapping("delete/filter")
+    public boolean deleteBooking(@RequestParam(required = true) Integer id){
+        return service.deleteBooking(id);
+    }
 }

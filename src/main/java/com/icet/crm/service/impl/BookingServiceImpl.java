@@ -8,6 +8,7 @@ import com.icet.crm.service.BookingService;
 import com.icet.crm.service.impl.email.RepairBookingEmailService;
 import com.icet.crm.util.EmailServiceType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository repository;
     private final ModelMapper mapper;
@@ -80,8 +82,24 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void updateBooking(BookingDto bookingDto) {
-        repository.save(mapper.map(bookingDto,Booking.class));
+    public boolean updateBooking(BookingDto bookingDto) {
+
+        if(bookingDto.getId()!=null && bookingDto.getVehicleId()!=null && bookingDto.getBookedDate()!=null && bookingDto.getBookedTime()!=null && bookingDto.getRepairId()!=null && bookingDto.getDescription()!=null){
+            try{
+                Booking booking=new Booking(bookingDto.getId(), bookingDto.getVehicleId(), bookingDto.getBookedDate(), bookingDto.getBookedTime(), bookingDto.getRepairId(), bookingDto.getDescription());
+                System.out.println(booking);
+                repository.save(booking);
+                repairBookingEmailService.sendRepairBookingEmail(booking);
+                return true;
+            }catch (Exception e){
+                log.info(e.toString());
+                return false;
+            }
+
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
@@ -89,4 +107,11 @@ public class BookingServiceImpl implements BookingService {
        Booking booking=repository.findByBookedDateAndBookedTime(bookedDate,bookedTime);
         return booking==null?null:mapper.map(booking,BookingDto.class);
     }
+
+    @Override
+    public boolean deleteBooking(Integer id) {
+        repository.deleteById(id);
+        return true;
+    }
+
 }

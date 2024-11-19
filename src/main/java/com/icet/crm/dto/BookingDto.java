@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class BookingDto {
+    private Integer id;
     private Integer vehicleId;
     private String bookedDate;
     private String bookedTime;

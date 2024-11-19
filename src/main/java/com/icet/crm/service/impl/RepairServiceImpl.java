@@ -5,6 +5,9 @@ import com.icet.crm.entity.Repair;
 import com.icet.crm.repository.RepairRepository;
 import com.icet.crm.service.RepairService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
@@ -13,7 +16,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+
 public class RepairServiceImpl implements RepairService {
+    private static final Logger log = LoggerFactory.getLogger(RepairServiceImpl.class);
     private final RepairRepository repository;
     private final ModelMapper mapper;
     @Override
@@ -72,6 +77,7 @@ public class RepairServiceImpl implements RepairService {
     @Override
     public List<RepairDto> getAll() {
         List<RepairDto> repairDtos=new ArrayList<>();
+
         repository.findAll().forEach(repair -> {
             repairDtos.add(mapper.map(repair,RepairDto.class));
         });
@@ -79,11 +85,27 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public List<RepairDto> findRepairByType(String type) {
+    public List<RepairDto> findRepairsByType(String type) {
+        System.out.println(type);
         List<RepairDto> repairDtos=new ArrayList<>();
         repository.findByType(type).forEach(repair -> {
+            System.out.println(repair);
             repairDtos.add(mapper.map(repair,RepairDto.class));
         });
+        System.out.println(repairDtos);
         return repairDtos;
+    }
+
+    @Override
+    public RepairDto findByType(String type) {
+        try{
+
+            return mapper.map(repository.findRepairByType(type),RepairDto.class);
+
+        }catch (Exception e){
+            log.info(e.toString());
+
+        }
+        return null;
     }
 }

@@ -32,10 +32,15 @@ public class RepairController {
     public RepairDto searchRepairById(@PathVariable Integer id){
         return service.findReapairById(id);
     }
-    @GetMapping("/search-by-type/{type}")
+//    @GetMapping("/search-by-type/filter")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<RepairDto> searchRepairByType(@RequestParam String type){
+//        return service.findRepairsByType(type);
+//    }
+    @GetMapping("/search-by-type/filter")
     @ResponseStatus(HttpStatus.OK)
-    public List<RepairDto> searchRepairByType(@PathVariable String type){
-        return service.findRepairByType(type);
+    public RepairDto searchRepairByType(@RequestParam String type){
+        return service.findByType(type);
     }
 
     @GetMapping("/get-all")

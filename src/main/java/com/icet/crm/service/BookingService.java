@@ -11,6 +11,7 @@ public interface BookingService {
     List<BookingDto> findByDate(String date);
     List<BookingDto> findByRepairId(Integer id);
     List<BookingDto> findByVehicleId(Integer id);
-    void updateBooking(BookingDto bookingDto);
+    boolean updateBooking(BookingDto bookingDto);
     BookingDto getAvailbleBooking(String bookedDate,String bookedTime);
+    boolean deleteBooking(Integer id);
 }
