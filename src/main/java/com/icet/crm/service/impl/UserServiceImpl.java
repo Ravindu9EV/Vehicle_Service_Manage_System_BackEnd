@@ -74,16 +74,16 @@ public class UserServiceImpl implements UserService {
             System.out.println("User Already in");
             return false;
         }
-        for (Vehicle v : user.getVehicleEntities()) {
-            if (vehicleRepository.findByLicensePlate(v.getLicensePlate()) == null) {  //Check A vehicle exist with given License Plate
-                newVehicle = v;
-                break;
-            }else{
-                return false;
-            }
-        }
-        try {
 
+        try {
+            for (Vehicle v : user.getVehicleEntities()) {
+                if (vehicleRepository.findByLicensePlate(v.getLicensePlate()) == null) {  //Check A vehicle exist with given License Plate
+                    newVehicle = v;
+                    break;
+                }else{
+                    return false;
+                }
+            }
 
             userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
             newUser = mapper.map(userDto, User.class);
