@@ -8,7 +8,7 @@ public interface RepairService {
     boolean addRepair(RepairDto repairDto);
     RepairDto findReapairById(Integer id);
     boolean deleteRepair(Integer id);
-    void updateRepair(RepairDto repairDto);
+    boolean updateRepair(RepairDto repairDto);
     List<RepairDto> getAll();
     List<RepairDto> findRepairsByType(String type);
     RepairDto findByType(String type);

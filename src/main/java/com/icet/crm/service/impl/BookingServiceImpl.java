@@ -85,22 +85,22 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public boolean updateBooking(BookingDto bookingDto) {
 
-        if(bookingDto.getId()>0 && bookingDto.getId()!=null && bookingDto.getVehicleId()!=null && bookingDto.getBookedDate()!=null && bookingDto.getBookedTime()!=null && bookingDto.getRepairId()!=null && bookingDto.getDescription()!=null){
-            try{
-                Booking booking=new Booking(bookingDto.getId(), bookingDto.getVehicleId(), bookingDto.getBookedDate(), bookingDto.getBookedTime(), bookingDto.getRepairId(), bookingDto.getDescription());
-                System.out.println(booking);
-                repository.save(booking);
-                repairBookingEmailService.sendRepairBookingEmail(booking);
-                return true;
-            }catch (Exception e){
-                log.info(e.toString());
-                return false;
-            }
-
-        }
-        else {
+        if(bookingDto.getId()<=0 || bookingDto.getId()==null || bookingDto.getVehicleId()==null || bookingDto.getBookedDate()==null || bookingDto.getBookedTime()==null || bookingDto.getRepairId()==null || bookingDto.getDescription()==null) {
             return false;
         }
+        try {
+            Booking booking = new Booking(bookingDto.getId(), bookingDto.getVehicleId(), bookingDto.getBookedDate(), bookingDto.getBookedTime(), bookingDto.getRepairId(), bookingDto.getDescription());
+            System.out.println(booking);
+            repository.save(booking);
+            repairBookingEmailService.sendRepairBookingEmail(booking);
+            return true;
+        } catch (Exception e) {
+            log.info(e.toString());
+            return false;
+        }
+
+
+
     }
 
     @Override

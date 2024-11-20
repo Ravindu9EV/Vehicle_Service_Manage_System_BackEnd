@@ -70,8 +70,18 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public void updateRepair(RepairDto repairDto) {
-        if(repairDto!=null)repository.save(mapper.map(repairDto, Repair.class));
+    public boolean updateRepair(RepairDto repairDto) {
+        if(repairDto.getId()==null || repairDto.getType()==null || repairDto.getCost()==null || repairDto.getDuration()==null || repairDto.getDescription()==null){
+            return false;
+        }
+         try{
+
+             repository.save(mapper.map(repairDto, Repair.class));
+             return true;
+         }catch (Exception e){
+             log.info(e.toString());
+             return false;
+         }
     }
 
     @Override

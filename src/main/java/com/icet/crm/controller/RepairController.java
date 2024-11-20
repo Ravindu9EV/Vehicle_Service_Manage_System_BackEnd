@@ -51,7 +51,7 @@ public class RepairController {
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public void updateRepair(@RequestBody RepairDto repairDto){
-        service.updateRepair(repairDto);
+    public boolean updateRepair(@RequestBody RepairDto repairDto){
+        return service.updateRepair(repairDto);
     }
 }
