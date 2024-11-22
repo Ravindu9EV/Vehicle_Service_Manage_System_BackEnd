@@ -35,10 +35,10 @@ public class UserController {
         return service.findByEmail(email);
     }
 
-    @GetMapping("/search-by-email-and-password")
+    @GetMapping("/search-by-email-and-password/")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto searchUserByEmailAndPassword(@RequestBody LoginDto loginDto){
-        UserDto userDto=service.findByEmailAndPassword(loginDto.getEmail(), loginDto.getPassword());
+    public UserDto searchUserByEmailAndPassword(@RequestParam String email,@RequestParam String password){
+        UserDto userDto=service.findByEmailAndPassword(email, password);
         System.out.println(userDto);
         return userDto;
     }
@@ -46,8 +46,8 @@ public class UserController {
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public void updateUser(@RequestBody UserDto userDto){
-        service.updateUser(userDto);
+    public boolean updateUser(@RequestBody UserDto userDto){
+        return service.updateUser(userDto);
     }
     @DeleteMapping("delete-by-id/filter")
     @ResponseStatus(HttpStatus.OK)
@@ -64,5 +64,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public List<UserDto> findByName(@RequestParam String name){
         return service.findByName(name);
+    }
+
+    @GetMapping("/reset-password/")
+    public Integer resetPassword(String email){
+        return service.resetPassword(email);
     }
 }

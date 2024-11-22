@@ -1,5 +1,6 @@
 package com.icet.crm.service.impl;
 
+import com.icet.crm.Main;
 import com.icet.crm.dto.AdminDto;
 import com.icet.crm.dto.EmailDto;
 import com.icet.crm.dto.UserDto;
@@ -14,9 +15,11 @@ import com.icet.crm.repository.VehicleRepository;
 import com.icet.crm.service.SendEmailService;
 import com.icet.crm.service.UserService;
 import com.icet.crm.service.VehicleService;
+import com.icet.crm.service.impl.email.OTPEmailService;
 import com.icet.crm.service.impl.email.RegistrationEmailService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.engine.internal.Collections;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,8 +32,10 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
@@ -41,7 +46,7 @@ public class UserServiceImpl implements UserService {
     final VehicleService vehicleService;
     final EmailRepository emailRepository;
     final RegistrationEmailService registrationEmailService;
-
+    final OTPEmailService otpEmailService;
     @Override
 
     public boolean addUser(UserDto userDto) {
@@ -180,6 +185,7 @@ public class UserServiceImpl implements UserService {
 
         UserDto userDto=findByEmail(email);
         if(userDto!=null & passwordEncoder.matches(password, userDto.getPassword())){
+            userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
             return userDto;
         }
         return userDto;
@@ -240,5 +246,23 @@ public class UserServiceImpl implements UserService {
 
         return isUpdate;
 
+    }
+
+    @Override
+    public Integer resetPassword(String email){
+        try{
+            System.out.println(email);
+            User user=mapper.map(findByEmail(email),User.class);
+            Integer otp=generateOTP();
+            return otpEmailService.sendOTP(user,otp)!=null ? otp : -1;
+        }catch (Exception e){
+            log.info(e.toString());
+            return -1;
+        }
+    }
+    private Integer generateOTP(){
+        Integer otp=new Random().nextInt(999999);
+        System.out.println(otp);
+        return otp;
     }
 }

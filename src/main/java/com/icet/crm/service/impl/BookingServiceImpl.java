@@ -13,6 +13,7 @@ import org.hibernate.mapping.Array;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -25,22 +26,39 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public boolean addBooiking(BookingDto bookingDto) {
         boolean isAvailable=false;
-        if(bookingDto!=null){
-            if(getAvailbleBooking(bookingDto.getBookedDate(), bookingDto.getBookedTime())==null){
-                Booking booking=mapper.map(bookingDto, Booking.class);
+        if(bookingDto!=null) {
+            //boolean isDateCorc=checkDate(bookingDto.getBookedDate());
 
-                if(getAvailbleBooking(booking.getBookedDate(), booking.getBookedTime())==null){
-                    repository.save(booking);
-                    isAvailable=true;
-                    if(isAvailable){
-                        EmailDto emailDto=repairBookingEmailService.sendRepairBookingEmail(booking);
-                        System.out.println(emailDto);
-                    }
-                }else{
+
+                if ( bookingDto.getVehicleId() == null || bookingDto.getBookedDate() == null || bookingDto.getBookedTime() == null || bookingDto.getRepairId() == null || bookingDto.getDescription() == null) {
                     return false;
                 }
+//                else if (!checkDate(bookingDto.getBookedDate())) {
+//                    return false;
+//
+//                }
+                else if (getAvailbleBooking(bookingDto.getBookedDate(), bookingDto.getBookedTime()) == null) {
+                    Booking booking = mapper.map(bookingDto, Booking.class);
 
-            }
+                    try{
+                        if (getAvailbleBooking(booking.getBookedDate(), booking.getBookedTime()) == null) {
+                            repository.save(booking);
+                             isAvailable = true;
+                            if (isAvailable) {
+                                EmailDto emailDto = repairBookingEmailService.sendRepairBookingEmail(booking);
+                                System.out.println(emailDto);
+                                isAvailable= true;
+                            }else{
+                                isAvailable=false;
+                            }
+                        } else {
+                            isAvailable= false;
+                        }
+                    }catch (Exception e){
+                       isAvailable= false;
+                    }
+
+                }
 
         }
         return isAvailable;
@@ -85,19 +103,27 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public boolean updateBooking(BookingDto bookingDto) {
 
-        if(bookingDto.getId()<=0 || bookingDto.getId()==null || bookingDto.getVehicleId()==null || bookingDto.getBookedDate()==null || bookingDto.getBookedTime()==null || bookingDto.getRepairId()==null || bookingDto.getDescription()==null) {
+        if(bookingDto.getId()<=0  || bookingDto.getVehicleId()==null || bookingDto.getBookedDate()==null || bookingDto.getBookedTime()==null || bookingDto.getRepairId()==null || bookingDto.getDescription()==null) {
             return false;
         }
-        try {
-            Booking booking = new Booking(bookingDto.getId(), bookingDto.getVehicleId(), bookingDto.getBookedDate(), bookingDto.getBookedTime(), bookingDto.getRepairId(), bookingDto.getDescription());
-            System.out.println(booking);
-            repository.save(booking);
-            repairBookingEmailService.sendRepairBookingEmail(booking);
-            return true;
-        } catch (Exception e) {
-            log.info(e.toString());
-            return false;
+//        if (!checkDate(bookingDto.getBookedDate())) {
+//            return false;
+//
+//        }
+        else{
+            try {
+                Booking booking = new Booking(bookingDto.getId(), bookingDto.getVehicleId(), bookingDto.getBookedDate(), bookingDto.getBookedTime(), bookingDto.getRepairId(), bookingDto.getDescription());
+                System.out.println(booking);
+                repository.save(booking);
+                repairBookingEmailService.sendRepairBookingEmail(booking);
+                return true;
+            } catch (Exception e) {
+                log.info(e.toString());
+                return false;
+            }
         }
+
+
 
 
 
@@ -114,6 +140,78 @@ public class BookingServiceImpl implements BookingService {
         repository.deleteById(id);
         return true;
     }
+
+    //----------checkDate------------
+    public boolean checkDate(String date) {
+        LocalDate date1 = LocalDate.now();
+        String formatDate = date1.getYear() + "-" + date1.getMonthValue() + "-" + date1.getDayOfMonth() + "";
+        Integer currentYear = Integer.parseInt(formatDate.substring(0, 4));
+        Integer bookedYear = Integer.parseInt(date.substring(0, 4));
+        Integer currentMonth = Integer.parseInt(formatDate.substring(5, 7));
+        Integer bookedMonth = Integer.parseInt(date.substring(5, 7));
+        System.out.println(currentYear + "---" + bookedYear);
+        System.out.println(currentMonth + "M---M" + bookedMonth);
+        if (currentYear == bookedYear) {
+            int m=currentMonth + 1;
+            System.out.println(m);
+            if(bookedMonth == (m)){
+                System.out.println(true);
+
+                return true;
+            }else if(bookedMonth<currentMonth){
+                return false;
+            }else if(bookedMonth==currentMonth){
+                return true;
+            }else {
+                return false;
+            }
+
+
+
+        } else if(bookedYear>currentYear+1) {
+            return false;
+        } else if((bookedYear==currentYear+1) & bookedMonth==12) {
+            return true;
+        }else{
+
+            return false;
+        }
+
+        //boolean isCorrect=false;
+//        if (currentYear < bookedYear) {
+//            if (currentMonth == 12 & bookedMonth == 1) {
+//                return true;
+//            }
+//            return false;
+//        } else if ((currentYear == bookedYear) & (currentMonth > bookedMonth)) {
+//
+//
+//            return false;
+//
+//        } else if (currentYear == bookedYear & (currentMonth + 2 <= bookedMonth)) {
+//            return false;
+//        } else if ((currentYear == bookedYear)) {
+//
+//                return bookedMonth == currentMonth + 1;
+//
+//
+//        } else if (currentYear > bookedYear) {
+//            return false;
+//        } else if (currentYear + 1 == bookedYear & (currentMonth == 12 & bookedMonth == 1)) {
+//
+//            return true;
+//        } else {
+//            return false;
+//        }
+
+
+
+
+       // return    false;
+
+    }
+
+
 
 
     public List<BookingDto> sortByDate(){

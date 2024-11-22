@@ -13,6 +13,6 @@ public interface UserService {
     List<UserDto> findByName(String name);
     List<UserDto> getAll();
     boolean updateUser(UserDto user);
-
+    Integer resetPassword(String email);
 
 }

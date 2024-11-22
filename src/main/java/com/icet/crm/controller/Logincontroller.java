@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class Logincontroller {
     final LoginService service;
-    @PostMapping("/user-login")
+    @GetMapping("/user-login/")
     @ResponseStatus(HttpStatus.OK)
-    public boolean checkUserLogin(@RequestBody LoginDto loginDto){
+    public boolean checkUserLogin(@RequestParam String email,@RequestParam String password){
 
-        return service.checkUserLogin(loginDto.getEmail(), loginDto.getPassword());
+        return service.checkUserLogin(email, password);
     }
     @PostMapping("/admin-login")
     public boolean checkAdminLogin( @RequestBody LoginDto loginDto) {
