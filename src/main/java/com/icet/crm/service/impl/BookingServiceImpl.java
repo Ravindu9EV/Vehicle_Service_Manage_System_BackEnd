@@ -163,9 +163,9 @@ public class BookingServiceImpl implements BookingService {
                 return true;
             }
             return false;
-        }else if(bookedYear==currentYear & bookedMonth==currentMonth & bookedDay<currentDay){
+        }else if(bookedYear==currentYear & bookedMonth==currentMonth | bookedDay<currentDay){
             return false;
-        }else if(bookedYear==currentYear & bookedMonth==currentMonth & bookedDay>=currentDay){
+        }else if(bookedYear==currentYear & bookedMonth==currentMonth | bookedDay>=currentDay){
             return true;
         }else if(bookedYear==currentYear | bookedMonth>currentMonth ){
             if(bookedMonth>currentMonth+1){
