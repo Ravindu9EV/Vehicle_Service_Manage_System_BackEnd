@@ -137,14 +137,33 @@ public class BookingServiceImpl implements BookingService {
 
     //----------checkDate------------
     public boolean checkDate(String date) {
+        System.out.println("JOOO: "+date);
         LocalDate date1 = LocalDate.now();
         String formatDate = date1.getYear() + "-" + date1.getMonthValue() + "-" + date1.getDayOfMonth() + "";
         Integer currentYear = Integer.parseInt(formatDate.substring(0, 4));
         Integer bookedYear = Integer.parseInt(date.substring(0, 4));
-        Integer currentMonth = Integer.parseInt(formatDate.substring(5, 7));
-        Integer bookedMonth = Integer.parseInt(date.substring(5, 7));
-        Integer bookedDay=Integer.parseInt(date.substring(8,10));
-        Integer currentDay=Integer.parseInt(formatDate.substring(8,10));
+        Integer currentMonth = Integer.parseInt(formatDate.substring(5, 6));
+        String bkdM=date.substring(5,7);
+        Integer bookedMonth;
+        if(bkdM.contains("-")){
+//            bkdM=bkdM.substring(0);
+            System.out.println(bkdM+" lppp");
+            bookedMonth=Integer.parseInt(bkdM);
+        }else{
+            bookedMonth=Integer.parseInt(date.substring(5, 7));
+        }
+
+
+        Integer bookedDay;
+        String bkdD=date.substring(8,10);
+        System.out.println("pppp: "+date.substring(8,10));
+        if(bkdD.contains("-")){
+            System.out.println(bkdD.substring(0));
+            bookedDay=Integer.parseInt(bkdD.substring(0));
+        }else{
+            bookedDay=Integer.parseInt(bkdD);
+        }
+        Integer currentDay=Integer.parseInt(formatDate.substring(7,8));
         System.out.println(currentYear + "---" + bookedYear);
         System.out.println(currentMonth + "M---M" + bookedMonth);
         System.out.println(currentDay + "D---D" + bookedDay);
